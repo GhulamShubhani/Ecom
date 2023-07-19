@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
+  import { useNavigate } from "react-router-dom";
+  import { useSelector, useDispatch } from "react-redux";
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -15,6 +17,9 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+
+import { UserActions } from "../store/User";
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -57,6 +62,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const navigate = useNavigate();
+  const {
+    isLoggedIn,
+    type,
+    email,
+    firstName,
+    lastName,
+    countryNumberCode,
+    phone,
+    password,
+    confirmPassword,
+    gender,
+    profilePicture,
+    fcmToken,
+    deviceLanguageCode,
+    deviceCountryCode,
+    deviceName,
+    deviceIdentifier,
+  } = useSelector((state) => state.user);
   // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -82,6 +106,11 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const handleMenuClick = (data)=>{
+      if(data = "logData"){
+        navigate("/login")
+      }
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -102,6 +131,8 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={()=>handleMenuClick("logData")}>{isLoggedIn === true ? "Logout" : "Login" }</MenuItem>
+      {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
     </Menu>
   );
 
