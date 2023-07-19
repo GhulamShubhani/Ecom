@@ -1,3 +1,9 @@
+
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+
 const firebaseConfig = {
     apiKey: "AIzaSyDiP-N8NpoUZ4S2nCv8Z7UP_lLEi5wu93w",
     authDomain: "ecom-d8023.firebaseapp.com",
