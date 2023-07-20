@@ -136,6 +136,7 @@ import {
       try {
         console.log("email,number",  email);
         if (handleVaidation()) {
+            console.log("come");
           const emailOtp = await axios.post(
             "https://vast-cyan-peacock-toga.cyclic.app/user/sendotp",
             { email }
