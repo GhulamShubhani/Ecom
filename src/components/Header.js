@@ -108,10 +108,10 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
   const handleMenuClick = (data)=>{
-      if(data = "logData"){
+      if(data === "logData"){
         navigate("/login")
       }
-      if(data = "profile"){
+      if(data === "profile"){
         navigate("/profile")
       }
   }
