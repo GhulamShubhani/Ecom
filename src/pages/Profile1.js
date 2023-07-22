@@ -149,7 +149,10 @@ const Profile1 = () => {
 
   const getUserAllData = async () => {
     try {
-      const { data } = await axios.post("http://localhost:8000/user/getuserdeta", { email }, config)
+      const { data } = await axios.post(
+        "https://vast-cyan-peacock-toga.cyclic.app/user/getuserdeta",
+        // "http://localhost:8000/user/getuserdeta",
+         { email }, config)
       if (data) {
         console.log("fata", data);
         localStorage.setItem("userId", data.id);
@@ -193,9 +196,9 @@ const Profile1 = () => {
   };
   const apiCallForUploadBackGroundImage = async () => {
     try {
-      //  "https://vast-cyan-peacock-toga.cyclic.app/user/updateprofilepic"
       const responseForUploadImage = await axios.post(
-        "http://localhost:8000/user/updatebackgroundprofilepic",
+         "https://vast-cyan-peacock-toga.cyclic.app/user/updatebackgroundprofilepic",
+        // "http://localhost:8000/user/updatebackgroundprofilepic",
         {
           email,
           backgroundProfilePicture
@@ -228,8 +231,8 @@ const Profile1 = () => {
   const apiCallForDeleteBackGroundImage = async () => {
     try {
       const responseFordeleteImage = await axios.post(
-        // "https://vast-cyan-peacock-toga.cyclic.app/user/deletebackgroundprofilepic"
-        "http://localhost:8000/user/deletebackgroundprofilepic",
+        "https://vast-cyan-peacock-toga.cyclic.app/user/deletebackgroundprofilepic",
+        // "http://localhost:8000/user/deletebackgroundprofilepic",
         { email }, config
       )
       if (responseFordeleteImage) {
