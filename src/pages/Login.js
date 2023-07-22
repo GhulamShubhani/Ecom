@@ -47,6 +47,7 @@ const Login = () => {
     deviceCountryCode,
     deviceName,
     deviceIdentifier,
+    isLoggedIn
   } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -114,9 +115,21 @@ const Login = () => {
           ).getTime();
           localStorage.setItem("token", token);
           localStorage.setItem("tokenExpiration", tokenExpiration);
+          console.log( {
+            email,
+            password,
+            device: {
+              fcmToken,
+              deviceLanguageCode,
+              deviceCountryCode,
+              deviceName,
+              deviceIdentifier,
+            },
+          },"test123");
 
           const { data } = await axios.post(
-            "https://vast-cyan-peacock-toga.cyclic.app/user/login",
+            // "https://vast-cyan-peacock-toga.cyclic.app/user/login",
+            "http://localhost:8000/user/login",
             {
               email,
               password,
@@ -135,15 +148,16 @@ const Login = () => {
             toast.success("User registered successfully", toastOptions);
 
             dispatch(UserActions.isLoggedIn(true));
-            dispatch(UserActions.email(data.email));
-            dispatch(UserActions.firstName(data.firstName));
-            dispatch(UserActions.lastName(data.lastName));
-            dispatch(UserActions.gender(data.gender));
-            dispatch(UserActions.phone(data.phone));
-            dispatch(UserActions.profilePicture(data.profilePicture));
-            dispatch(UserActions.type(data.type));
-            dispatch(UserActions.password(data.password));
-            dispatch(UserActions.id(data.id));
+            dispatch(UserActions.email(data.user.email));
+            dispatch(UserActions.firstName(data.user.firstName));
+            dispatch(UserActions.lastName(data.user.lastName));
+            dispatch(UserActions.gender(data.user.gender));
+            dispatch(UserActions.phone(data.user.phone));
+            dispatch(UserActions.profilePicture(data.user.profilePicture));
+            dispatch(UserActions.type(data.user.type));
+            dispatch(UserActions.password(data.user.password));
+            dispatch(UserActions.id(data.user.id));
+            dispatch(UserActions.backgroundProfilePicture(data.user.backgroundProfilePicture));
 
             // dispatch(UserActions.clear());
             navigate("/login");
@@ -162,6 +176,7 @@ const Login = () => {
       setIsLoading(false);
     }
   };
+  console.log("gf",firstName,isLoggedIn);
   return (
     <div>
       <Grid container justifyContent="center" alignItems="center">

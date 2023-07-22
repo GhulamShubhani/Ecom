@@ -12,6 +12,7 @@ const initialState = {
   isLoggedIn: false,
   phone: null,
   id: null,
+  backgroundProfilePicture:null,
 
   fcmToken: null,
   deviceName: null,
@@ -28,9 +29,11 @@ const LoginSlice = createSlice({
       state.messageReceived = !state.messageReceived;
     },
     email(state, action) {
+      console.log("action.payloademail",action.payload);
       state.email = action.payload;
     },
     lastName(state, action) {
+      console.log("action.payloadlast name",action.payload);
       state.lastName = action.payload;
     },
     firstName(state, action) {
@@ -79,6 +82,9 @@ const LoginSlice = createSlice({
     type(state, action) {
       state.type = action.payload;
     },
+    backgroundProfilePicture(state, action) {
+      state.backgroundProfilePicture = action.payload;
+    },
     clear(state) {
       state.type = "User";
       state.firstName = "";
@@ -97,6 +103,7 @@ const LoginSlice = createSlice({
       state.deviceLanguageCode = "";
       state.deviceIdentifier = "";
       state.profilePicture = null;
+      state.backgroundProfilePicture = null;
     },
   },
 });
