@@ -114,6 +114,16 @@ export default function PrimarySearchAppBar() {
       if(data === "profile"){
         navigate("/profile")
       }
+      if(data === "notification"){
+        navigate("/notification")
+      }
+      if(data === "message"){
+        navigate("/message")
+      }
+  }
+
+  const handleMainClick =()=>{
+    navigate("/")
   }
 
   const menuId = 'primary-search-account-menu';
@@ -202,6 +212,7 @@ export default function PrimarySearchAppBar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={handleMainClick}
           >
             <MenuIcon />
           </IconButton>
@@ -224,7 +235,7 @@ export default function PrimarySearchAppBar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+            <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={()=>handleMenuClick("message")}>
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
@@ -233,6 +244,7 @@ export default function PrimarySearchAppBar() {
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              onClick={()=>handleMenuClick("notification")}
             >
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />

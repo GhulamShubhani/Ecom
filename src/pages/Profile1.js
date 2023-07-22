@@ -33,7 +33,8 @@ const Profile1 = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 500px)");
-
+  const token = localStorage.getItem("token")
+  console.log(token,"token");
   const {
     type,
     email,
@@ -53,6 +54,22 @@ const Profile1 = () => {
     isLoggedIn,
     backgroundProfilePicture,
   } = useSelector((state) => state.user);
+
+  console.log(type,
+    email,
+    firstName,
+    lastName,
+    countryNumberCode,
+    phone,
+    password,
+    confirmPassword,
+    gender,
+    profilePicture,
+    fcmToken,
+    deviceLanguageCode,
+    deviceCountryCode,
+    deviceName,
+    deviceIdentifier,);
 
   useEffect(() => {
     const getDeviceName = () => {
@@ -131,6 +148,34 @@ const Profile1 = () => {
   const uploadBackGroundImageHandleClose = () => {
     setuploadBackGroundImageDialogBoxOpen(false);
   };
+  const apiCallForUploadBackGroundImage =async()=>{
+    try{
+      // console.log("uplioad",email,firstName,backgroundProfilePicture,token)
+      console.log("http://localhost:8000/user/updateprofilepic",
+      {
+        email,
+        backgroundProfilePicture
+      },{ headers: { Authorization: "bearer " + token } });
+      //  "https://vast-cyan-peacock-toga.cyclic.app/user/updateprofilepic"
+      const responseForUploadImage = await axios.post(
+        // "https://vast-cyan-peacock-toga.cyclic.app/user/updateprofilepic",
+        "http://localhost:8000/user/updateprofilepic",
+        {
+          email,
+          backgroundProfilePicture
+        },{ headers: { Authorization: "bearer " + token } }
+      );
+    console.log("responseForUploadImage-",responseForUploadImage);
+   
+
+    }catch(err){
+      console.log(err);
+    }finally{
+      uploadBackGroundImageHandleClose()
+    }
+
+    
+  }
   // end of delete back ground image ----------------------
 
   // delete background image dialog box and api ===================
@@ -143,6 +188,22 @@ const Profile1 = () => {
   const handleClose = () => {
     setbackGroundImageDialogBoxOpen(false);
   };
+  const apiCallForDeleteBackGroundImage =async()=>{
+    try{
+      const responseForUploadImage = await axios.post(
+        // "https://vast-cyan-peacock-toga.cyclic.app/user/deletebackgroundprofilepic"
+        "http://localhost:8000/user/deletebackgroundprofilepic",
+        {email,backgroundProfilePicture},
+        { headers: { Authorization: "bearer " + token } }
+      )
+      // handleClose()
+
+    }catch(err){
+      console.log(err);
+    }
+    handleClose()
+    
+  }
   // end of delete back ground image ----------------------
 
   const containerStyle = {
@@ -220,7 +281,7 @@ const Profile1 = () => {
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={uploadBackGroundImageHandleClose}>Disagree</Button>
-                  <Button onClick={uploadBackGroundImageHandleClose} autoFocus>
+                  <Button onClick={apiCallForUploadBackGroundImage} autoFocus>
                     Agree
                   </Button>
                 </DialogActions>
@@ -246,7 +307,7 @@ const Profile1 = () => {
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={handleClose}>Disagree</Button>
-                  <Button onClick={handleClose} autoFocus>
+                  <Button onClick={apiCallForDeleteBackGroundImage} autoFocus>
                     Agree
                   </Button>
                 </DialogActions>

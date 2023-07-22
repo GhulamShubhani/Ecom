@@ -8,6 +8,8 @@ import Signup from './pages/Signup';
 // import Profileback from './pages/profile/Profileback';
 import Home from './components/Home';
 import Profile from './pages/Profile1';
+import Message from './pages/Message';
+import Notification from './pages/Notification';
 
 
 
@@ -20,6 +22,8 @@ function App() {
       <Route path="/login" element={<Login/>}/>
       <Route path="/signup" element={<Signup/>}/>
       <Route path="/profile" element={<Profile/>}/>
+      <Route path="/message" element={<Message/>}/>
+      <Route path="/notification" element={<Notification/>}/>
     </Routes>
     </BrowserRouter>
   );
