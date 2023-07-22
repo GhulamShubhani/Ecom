@@ -89,20 +89,25 @@ const Login = () => {
   };
 
   const loginHandler = async () => {
+    console.log("click------");
     try {
       setIsLoading(true);
       const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
       if (emailRegex.test(email)) {
-        const response = await axios.get(
-          `https://vast-cyan-peacock-toga.cyclic.app/user/userexist`
-        );
+        console.log("pass");
+        // const response = await axios.get(
+        //   `https://vast-cyan-peacock-toga.cyclic.app/user/userexist`
+        // );
+        // console.log("response-----",response);
 
-        const exist = response.data.exist;
+        // const exist = response.data.exist;
+        const exist = true
         if (exist) {
           const tokenResponse = await axios.post(
             "https://vast-cyan-peacock-toga.cyclic.app/user/authtoken",
             { email, password }
           );
+          console.log("token",tokenResponse);
           const token = tokenResponse.data.token;
           const tokenExpiration = new Date(
             tokenResponse.data.expireAt
@@ -125,6 +130,7 @@ const Login = () => {
             }
           );
           if (data) {
+            console.log("fata",data);
             localStorage.setItem("userId", data.id);
             toast.success("User registered successfully", toastOptions);
 

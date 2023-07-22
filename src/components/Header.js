@@ -101,6 +101,7 @@ export default function PrimarySearchAppBar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
+    navigate("/profile")
   };
 
   const handleMobileMenuOpen = (event) => {
