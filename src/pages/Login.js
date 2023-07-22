@@ -159,7 +159,7 @@ const Login = () => {
             dispatch(UserActions.backgroundProfilePicture(data.user.backgroundProfilePicture));
 
             // dispatch(UserActions.clear());
-            navigate("/login");
+            // navigate("/login");
             navigate("/");
           }
         } else {

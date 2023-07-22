@@ -34,7 +34,7 @@ const Profile1 = () => {
   const [isLoading, setIsLoading] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width: 500px)");
   const token = localStorage.getItem("token")
-  console.log(token,"token");
+  // console.log(token,"token");
   const {
     type,
     email,
@@ -55,21 +55,21 @@ const Profile1 = () => {
     backgroundProfilePicture,
   } = useSelector((state) => state.user);
 
-  console.log(type,
-    email,
-    firstName,
-    lastName,
-    countryNumberCode,
-    phone,
-    password,
-    confirmPassword,
-    gender,
-    profilePicture,
-    fcmToken,
-    deviceLanguageCode,
-    deviceCountryCode,
-    deviceName,
-    deviceIdentifier,);
+  // console.log(type,
+  //   email,
+  //   firstName,
+  //   lastName,
+  //   countryNumberCode,
+  //   phone,
+  //   password,
+  //   confirmPassword,
+  //   gender,
+  //   profilePicture,
+  //   fcmToken,
+  //   deviceLanguageCode,
+  //   deviceCountryCode,
+  //   deviceName,
+  //   deviceIdentifier,);
 
   useEffect(() => {
     const getDeviceName = () => {
@@ -103,6 +103,9 @@ const Profile1 = () => {
     fetchLocation();
     getDeviceName();
   }, []);
+
+
+
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -138,6 +141,46 @@ const Profile1 = () => {
   };
   // emd of upload image on firebase ----------------------------
 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const getUserAllData = async () => {
+    try {
+      const { data } = await axios.post("http://localhost:8000/user/getuserdeta", { email }, config)
+      if (data) {
+        console.log("fata", data);
+        localStorage.setItem("userId", data.id);
+        toast.success("User registered successfully", toastOptions);
+
+        dispatch(UserActions.isLoggedIn(true));
+        dispatch(UserActions.email(data.user.email));
+        dispatch(UserActions.firstName(data.user.firstName));
+        dispatch(UserActions.lastName(data.user.lastName));
+        dispatch(UserActions.gender(data.user.gender));
+        dispatch(UserActions.phone(data.user.phone));
+        dispatch(UserActions.profilePicture(data.user.profilePicture));
+        dispatch(UserActions.type(data.user.type));
+        dispatch(UserActions.password(data.user.password));
+        dispatch(UserActions.id(data.user.id));
+        dispatch(UserActions.backgroundProfilePicture(data.user.backgroundProfilePicture));
+
+        // dispatch(UserActions.clear());
+        // navigate("/login");
+        // navigate("/");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getUserAllData()
+
+  }, [])
+
   // upload background image dialog box and api ===================
   const [uploadBackGroundImageDialogBoxOpen, setuploadBackGroundImageDialogBoxOpen] = React.useState(false);
 
@@ -148,33 +191,27 @@ const Profile1 = () => {
   const uploadBackGroundImageHandleClose = () => {
     setuploadBackGroundImageDialogBoxOpen(false);
   };
-  const apiCallForUploadBackGroundImage =async()=>{
-    try{
-      // console.log("uplioad",email,firstName,backgroundProfilePicture,token)
-      console.log("http://localhost:8000/user/updateprofilepic",
-      {
-        email,
-        backgroundProfilePicture
-      },{ headers: { Authorization: "bearer " + token } });
+  const apiCallForUploadBackGroundImage = async () => {
+    try {
       //  "https://vast-cyan-peacock-toga.cyclic.app/user/updateprofilepic"
       const responseForUploadImage = await axios.post(
-        // "https://vast-cyan-peacock-toga.cyclic.app/user/updateprofilepic",
-        "http://localhost:8000/user/updateprofilepic",
+        "http://localhost:8000/user/updatebackgroundprofilepic",
         {
           email,
           backgroundProfilePicture
-        },{ headers: { Authorization: "bearer " + token } }
+        }, config
       );
-    console.log("responseForUploadImage-",responseForUploadImage);
-   
+      if (responseForUploadImage) {
+        getUserAllData()
+      }
 
-    }catch(err){
+    } catch (err) {
       console.log(err);
-    }finally{
+    } finally {
       uploadBackGroundImageHandleClose()
     }
 
-    
+
   }
   // end of delete back ground image ----------------------
 
@@ -188,21 +225,24 @@ const Profile1 = () => {
   const handleClose = () => {
     setbackGroundImageDialogBoxOpen(false);
   };
-  const apiCallForDeleteBackGroundImage =async()=>{
-    try{
-      const responseForUploadImage = await axios.post(
+  const apiCallForDeleteBackGroundImage = async () => {
+    try {
+      const responseFordeleteImage = await axios.post(
         // "https://vast-cyan-peacock-toga.cyclic.app/user/deletebackgroundprofilepic"
         "http://localhost:8000/user/deletebackgroundprofilepic",
-        {email,backgroundProfilePicture},
-        { headers: { Authorization: "bearer " + token } }
+        { email }, config
       )
-      // handleClose()
+      if (responseFordeleteImage) {
+        getUserAllData()
+      }
+      console.log(responseFordeleteImage, "responseFordeleteImage");
 
-    }catch(err){
+
+    } catch (err) {
       console.log(err);
     }
     handleClose()
-    
+
   }
   // end of delete back ground image ----------------------
 
@@ -226,8 +266,8 @@ const Profile1 = () => {
   const boxStyle = {
     height: "400px",
     backgroundImage: `url(${backgroundProfilePicture !== null
-        ? backgroundProfilePicture
-        : "https://wallpaperaccess.com/full/1134533.jpg"
+      ? backgroundProfilePicture
+      : "https://wallpaperaccess.com/full/1134533.jpg"
       })`,
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -276,7 +316,7 @@ const Profile1 = () => {
                 </DialogTitle>
                 <DialogContent>
                   <DialogContentText id="alert-dialog-description">
-                    Are you Seur To upload 
+                    Are you Seur To upload
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
