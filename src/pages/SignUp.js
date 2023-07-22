@@ -139,7 +139,9 @@ import {
             console.log("come");
           const emailOtp = await axios.post(
             "https://vast-cyan-peacock-toga.cyclic.app/user/sendotp",
-            { email }
+            { perpous:"signup",
+            email 
+          }
           );
           console.log(emailOtp, "emailOtp");
           setMobileOtpVerify(true);
