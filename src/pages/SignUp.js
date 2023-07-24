@@ -32,7 +32,7 @@ import {
   import VisibilityOff from "@mui/icons-material/VisibilityOff";
   import Visibility from "@mui/icons-material/Visibility";
 //   import homelogo from "../assets/login/homeLogo.png";
-  import { SignupActions } from "../store/Signup";
+  import { SignupActions } from "../store/SignUp";
 //   import Header from "../components/Header";
   import { toast, ToastContainer } from "react-toastify";
   import { toastOptions } from "../utils/ToastOptions";
@@ -46,7 +46,7 @@ import {
   import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
   import { storage } from "../firebase/index";
   
-  const Signup = () => {
+  const SignUp = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
@@ -662,5 +662,5 @@ import {
     );
   };
   
-  export default Signup;
+  export default SignUp;
   

@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import Signup from './Signup'
+import Signup from './SignUp'
 import User from './User'
 
 export const store = configureStore({
